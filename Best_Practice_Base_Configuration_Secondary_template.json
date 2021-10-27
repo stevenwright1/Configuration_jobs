@@ -1,0 +1,43 @@
+{
+    "tenant_id": "a082229c-f472-431c-9998-e4f70faf7d36",
+    "parent_name": "",
+    "is_visible": "true",
+    "is_inbuilt": "false",
+    "commands": [
+        {
+            "nitro_method": "",
+            "protocol": "SSH",
+            "parent_name": "configuration_template",
+            "index": "1",
+            "rollback_command": "",
+            "nitro_resource": "",
+            "nitro_payload": "",
+            "parent_id": "fa76869f-4e56-4c3d-a7e5-c593397ba7c0",
+            "timeout": "300",
+            "command": "set ns ip $NSIPSECONDARY$ -restrictAccess enabled",
+            "id": "332522c3-e448-4a8f-81ef-ab5977710a6e"
+        }
+    ],
+    "variables": [
+        {
+            "parent_id": "fa76869f-4e56-4c3d-a7e5-c593397ba7c0",
+            "type": "ip_address",
+            "description": "",
+            "values_enum": [],
+            "values_enum_db": "",
+            "valuex": "",
+            "id": "59242920-a67c-4f87-a4ce-b99d06fd210c",
+            "parent_name": "configuration_template",
+            "required": "true",
+            "display_name": "NSIP of the Secondary Node",
+            "name": "NSIPSECONDARY",
+            "default_value": ""
+        }
+    ],
+    "description": "Best_Practice_Base_Config_Sec",
+    "parent_id": "",
+    "id": "fa76869f-4e56-4c3d-a7e5-c593397ba7c0",
+    "device_family": "ns",
+    "category": "",
+    "name": "Best_Practice_Base_Config_Sec"
+}

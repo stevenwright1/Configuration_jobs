@@ -1,0 +1,49 @@
+
+# This file provides example configuration commands that allow you to automate prerequisite configuration.
+# These example commands are not included in the best practice base configuration template as they will differ for each customer.
+
+# Ensure unused physical interfaces are disabled
+# disable interface 1/3
+# disable interface 1/4
+# disable interface 10/3
+# disable interface 10/4
+
+# Set all redundant physical interfaces to be unmonitored for HA within System, Network, Interfaces
+# set interface 1/1 -hamonitor off
+# set interface 1/2 -hamonitor off
+# set interface 10/1 -hamonitor off
+# set interface 10/2 -hamonitor off
+
+# All channels comprising redundant physical interfaces should be monitored for HA within System, Network, Channels
+# set interface LA/1 -hamonitor on
+# set interface LA/2 -hamonitor on
+
+# All channels are bound to a separate VLAN and, you have taken care that no untagged channels are accidentally still in VLAN 1
+# add vlan 100 -aliasname internal
+# add vlan 200 -aliasname external
+# bind vlan 100 -ifnum LA/1
+# bind vlan 200 -ifnum LA/2
+
+# Create an HA pair between your ADCs within System, High Availability
+# On both HA nodes:
+# add ha node 0 other-node-nsip
+
+# Create and bind one SNIP to every VLAN, ensuring that each SNIP is in the subnet of the connected network
+# add ns ip 192.168.1.10 255.255.255.0 -type SNIP -mgmtAccess DISABLED
+# bind vlan 100 -IPAddress 192.168.1.10 255.255.255.0
+# add ns ip 192.168.2.10 255.255.255.0 -type SNIP -mgmtAccess DISABLED
+# bind vlan 200 -IPAddress 192.168.2.10 255.255.255.0
+
+# Configure the routes that the ADC requires within System, Network, Routes
+# add route 192.168.10.0 255.255.255.0 192.168.1.1
+# add route 0.0.0.0 0.0.0.0 192.168.2.1
+
+# Create any Policy Based Routes required
+# add ns pbr Management ALLOW -srcIP = <NSIP_of_first_HA_node>-<NSIP_of_second_HA_node> -destIP "!=" <first_IP_management_subnet>–<last_IP_management_subnet> -nextHop <management_subnet_router> - priority 1
+# apply pbrs
+
+# Make sure you can ping each SNIP with Mac Based Forwarding (MBF) is disabled or that you understand why you cannot
+# disable ns mode mbf
+
+# Ensure you have installed a new SSL certificate and key for the management GUI
+# add ssl certKey "Example Cert" -cert mgmt_adc1_crt -key mgmt_adc1_key
